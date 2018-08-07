@@ -15,22 +15,30 @@
   		<p class="bulletin-wrapper" @click="showDetail"><span></span>{{seller.bulletin}}<i>></i></p>
   		<img class="background" :src="seller.avatar" alt="">
   		<div v-show="detailShow" class="detail">
-  			<h1></h1>
-  			<ul>
-  				<li></li>
-  				<li></li>
-  				<li></li>
-  				<li></li>
-  				<li></li>
-  			</ul>
-  			<div class=""></div>
-  			<div class="bulletin"></div>
-  			<i class="close">X</i>
+  			<main>
+  					<h1 class="detail-title">{{seller.name}}</h1>	
+  					<div class="stars">
+  						<star :size="48" :score="seller.score"></star>
+  					</div>
+  					<div class="detail-supports">
+  						<h1>优惠信息</h1>
+  						<ul>
+  							<li class="supports-item" v-for="support in seller.supports"><span class="b-icon" :class="classMap[support.type]"></span>{{support.description}}</li>
+  						</ul>
+					</div>
+  					<div class="detail-bulletin">
+	  					<h1>商家公告</h1>
+  						<p>{{seller.bulletin}}</p>
+  					</div>
+  			</main>
+  				
+  			<i class="close" @click="showDetail">×</i>
   		</div>
   	</header>
 </template>
 
 <script>
+import star from './star.vue';
 export default {
  	name: 'header-nav',
  	props: { 
@@ -49,8 +57,11 @@ export default {
   	},
   	methods: {
   		showDetail() {
-  			this.detailShow = true;
+  			this.detailShow = !this.detailShow;
   		}
+  	},
+  	components: {
+  		star
   	}
 };
 </script>
@@ -201,5 +212,88 @@ header{
 	width: 100%;
 	height: 100%;
 	background-color: rgba(7, 17, 27, 0.8);
+	overflow: auto;
+	display: flex;
+	flex-flow: column;
+	backdrop-filter: blur(10px);
+}
+.detail main{
+	margin-top: 64px;
+	flex: 1;
+}
+.detail-title{
+	width: 100%;
+	font-size: 16px;
+	line-height: 16px;
+	font-weight: 700;
+	color: #fff;
+	text-align: center;
+}
+.stars{
+	height: 24px;
+	margin-top: 16px;
+	text-align: center;
+}
+.detail-supports > h1, .detail-bulletin > h1{
+	font-size: 14px;
+	line-height: 14px;
+	font-weight: 700;
+	color: #fff;
+	margin-top: 28px;
+	margin-bottom: 24px;
+	text-align: center;
+	width: 100%;
+	display: flex;
+}
+.detail-supports > h1::before, .detail-bulletin > h1::before{
+	content: '';
+	flex: 1; 
+	height: 1px;
+	margin: 6px 12px 0 36px;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+.detail-supports > h1::after, .detail-bulletin > h1::after{
+	content: '';
+	flex: 1;
+	height: 1px;
+	margin: 6px 36px 0 12px;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+.detail-supports ul{
+	margin: 0 48px;
+}
+.supports-item{
+	color: #fff;
+	font-size: 12px;
+	line-height: 12px;
+	font-weight: 200;
+	margin-bottom: 12px;
+}
+.b-icon{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-right: 6px;
+	background-size: cover;
+	vertical-align: middle;
+}
+.detail-bulletin{
+	padding-bottom: 64px;
+}
+.detail-bulletin p{
+	margin: 0 48px;
+	font-size: 12px;
+	line-height: 24px;
+	font-weight: 200;
+	color: #fff;
+}
+
+.close{
+	display: block;
+	width: 32px;
+	height: 32px;
+	font-size: 32px;
+	color: rgba(255, 255, 255, 0.5);
+	margin: 0 auto 32px auto;
 }
 </style>
