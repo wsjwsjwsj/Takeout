@@ -10,7 +10,7 @@
         		<router-link to='/seller' class="nav-item">商家</router-link>
       		</nav>
 
-      		<router-view/>
+      		<router-view></router-view>
    		</main>  
   	</div>
 </template>
