@@ -23,20 +23,22 @@
   									<span>￥{{food.price}}</span>
   									<span v-show="food.oldPrice">￥{{food.oldPrice}}</span>
   								</div>
-  								
+  								<cartcontrol :food="food" class="cart"></cartcontrol>   
   							</div>
   						</li>
   					</ul>
   				</li>
   			</ul>
   		</main>
-  		<footer></footer>
+  		<shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   	</div>
 </template>
 
 <script>
 import axios from 'axios';
 import BScroll from 'better-scroll';
+import shopcart from './shopcart';
+import cartcontrol from './cartcontrol.vue';
 
 export default {
   	name: 'goods',
@@ -47,14 +49,19 @@ export default {
       		scrollY: 0
     	}
   	},
+  	props: {
+  		seller: {
+  			type: Object
+  		}
+  	},
   	created() {
   		axios.get('http://127.0.0.1:5000/api/goods', {}).then(res => {
   			if(res.status === 200){
   				this.goods = res.data;
-  				this.$nextTick(()=>{
-  					this.initScroll();
-  					this.calcHeight();
-  				})	  			
+  				this.$nextTick().then(()=>{
+                    this.initScroll();
+                    this.calcHeight();
+                });	  			
   			}
   		}).catch(err => {  			
   			console.log(err);
@@ -82,7 +89,8 @@ export default {
   				click: true
   			});
   			this.foodsScroll = new BScroll(this.$refs.foods, {
-  				probeType: 3
+  				probeType: 3,
+                click: true
   			});
   			this.foodsScroll.on('scroll', (pos)=>{
   				this.scrollY = Math.abs(Math.round(pos.y));
@@ -98,6 +106,10 @@ export default {
   				this.listHeight.push(height);
   			}
   		}
+  	},
+  	components: {
+  		shopcart,
+        cartcontrol
   	}
 }
 </script>
@@ -105,6 +117,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .goods{
+	width: 100%;
 	position: absolute;
 	display: flex;
 	overflow: hidden;
@@ -193,6 +206,7 @@ export default {
 .content{
 	margin-left: 10px;
 	flex: 1;
+    position: relative;
 }
 .content h2{
 	margin-top: 2px;
@@ -229,7 +243,9 @@ export default {
 	font-size: 10px;
 	color: rgb(7, 17, 27);
 }
-.goods footer{
-
+.cart{
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 </style>
