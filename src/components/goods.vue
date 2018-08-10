@@ -30,7 +30,7 @@
   				</li>
   			</ul>
   		</main>
-  		<shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+  		<shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :selected-foods="selectedFoods"></shopcart>
   	</div>
 </template>
 
@@ -77,7 +77,17 @@ export default {
   					return i;
   			}
   			return 0;
-  		}
+  		},
+        selectedFoods() {
+            let foods = [];
+            this.goods.forEach(good=> {
+                good.foods.forEach(food=> {
+                    if(food.count > 0)
+                        foods.push(food);
+                });
+            });
+            return foods;
+        }
   	},
   	methods: {
   		selectMenu(index){

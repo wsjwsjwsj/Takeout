@@ -3,15 +3,27 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import Vuex from 'vuex';
 import '../static/css/reset.css';
 import './assets/css/base.css';
 
 Vue.config.productionTip = false;
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+	state: {
+
+	},
+	mutations: {
+		
+	}
+});
 
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',
 	router,
+	store,
 	components: { App },
 	template: '<App/>'
 })

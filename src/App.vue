@@ -1,8 +1,6 @@
 <template>
   	<div id="app">
-    	<header-nav :seller="seller">
-      
-    	</header-nav>
+    	<header-nav :seller="seller"></header-nav>
     	<main>
       		<nav class="border-1px">
         		<router-link to='/goods' class="nav-item">商品</router-link>

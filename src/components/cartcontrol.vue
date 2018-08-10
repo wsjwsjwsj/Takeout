@@ -1,8 +1,11 @@
 <template>
 	<div>
-		<i v-show="food.count > 0" class="subtract" @click="subtractCount">-</i>
+		<transition name="slide-fade">
+			<i v-show="food.count > 0" class="subtract" @click="subtractCount">-</i>
+		</transition>
 		<b v-show="food.count > 0" class="count">{{food.count}}</b>
 		<i class="add" @click="addCount">+</i>
+
 	</div>
 </template>
 
@@ -18,8 +21,8 @@ export default {
   	},
   	data() {
     	return {
-      		
-    	}
+
+    	};
   	},
   	computed: {
 
@@ -73,4 +76,13 @@ export default {
 	box-sizing: border-box;
 	line-height: 24px;
 }
+.slide-fade-enter-active, .slide-fade-leave-active{
+  transition: all .3s linear;
+  opacity: 1;
+}
+.slide-fade-enter, .slide-fade-leave-to{
+  transform: translateX(24px);
+  opacity: 0;
+}
+
 </style>
